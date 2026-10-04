@@ -7,7 +7,11 @@
       "name": "Front Brake Pad Set",
       "description": "Low-dust ceramic brake pads for front axle. Quiet, long-lasting stopping power.",
       "price": 8500,
-      "images": [],
+      "images": [
+        "/uploads/0bcab9ee-84a8-4ce3-a167-e5e7f1665009.jpg",
+        "/uploads/65b6814d-ef54-45e1-b76b-13a72c285680.jpg",
+        "/uploads/acf9358a-4e18-411f-abbd-5535fef5a269.jpg"
+      ],
       "category": "Brakes",
       "brand": "Brembo",
       "vehicleType": "Car",
@@ -20,7 +24,10 @@
       "name": "Oil Filter",
       "description": "High-flow spin-on oil filter with anti-drain back valve. Fits most 1.0–1.8L petrol engines.",
       "price": 1450,
-      "images": [],
+      "images": [
+        "/uploads/98a7dbbc-1451-41f4-951d-c0075dba6b86.jpg",
+        "/uploads/aafe27f6-6db4-401e-b04f-99c665e579fa.jpg"
+      ],
       "category": "Filters",
       "brand": "Bosch",
       "vehicleType": "Car",
@@ -33,7 +40,10 @@
       "name": "Iridium Spark Plug",
       "description": "Long-life iridium spark plug for better ignition and fuel economy.",
       "price": 1850,
-      "images": [],
+      "images": [
+        "/uploads/03bcf94d-541e-4301-8188-ce95f39bcfca.jpg",
+        "/uploads/e40d7382-e127-4e42-85e7-9ab5ae5c0c83.jpg"
+      ],
       "category": "Engine",
       "brand": "NGK",
       "vehicleType": "Car",
@@ -46,7 +56,9 @@
       "name": "Front Shock Absorber",
       "description": "Gas-charged front shock absorber for a smooth, stable ride on rough roads.",
       "price": 12500,
-      "images": [],
+      "images": [
+        "/uploads/43909e63-15d7-48dc-b952-e8bc474e212e.jpg"
+      ],
       "category": "Suspension & Steering",
       "brand": "KYB",
       "vehicleType": "SUV / Jeep",
@@ -59,7 +71,9 @@
       "name": "Headlight Bulb H4 12V",
       "description": "Bright halogen H4 headlight bulb, 60/55W. Sold individually.",
       "price": 950,
-      "images": [],
+      "images": [
+        "/uploads/13e0a8d8-6825-491a-8a7a-c1f81ab57899.jpg"
+      ],
       "category": "Lighting",
       "brand": "Philips",
       "vehicleType": "Car",
@@ -72,7 +86,9 @@
       "name": "Clutch Plate Kit",
       "description": "Complete clutch kit: pressure plate, clutch disc and release bearing.",
       "price": 18500,
-      "images": [],
+      "images": [
+        "/uploads/58cdbc59-79d7-4b1e-b9ad-5e96ad31b4f2.jpg"
+      ],
       "category": "Transmission & Clutch",
       "brand": "Valeo",
       "vehicleType": "Van",
@@ -85,7 +101,9 @@
       "name": "Engine Oil 5W-30 (4L)",
       "description": "Fully synthetic engine oil for modern petrol and diesel engines.",
       "price": 9800,
-      "images": [],
+      "images": [
+        "/uploads/ee9052f6-110d-45dd-ae30-6f113d86ff7c.jpg"
+      ],
       "category": "Oils & Fluids",
       "brand": "Castrol",
       "vehicleType": "Car",
@@ -98,7 +116,9 @@
       "name": "Drum Brake Shoe Set",
       "description": "Rear drum brake shoes for three-wheelers. Pair.",
       "price": 2200,
-      "images": [],
+      "images": [
+        "/uploads/90b5aa15-bf36-4a7f-b9e1-3ab27b4f8923.jpg"
+      ],
       "category": "Brakes",
       "brand": "Other / Generic",
       "vehicleType": "Three-wheeler",
