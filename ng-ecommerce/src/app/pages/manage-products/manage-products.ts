@@ -137,9 +137,11 @@ export default class ManageProducts {
     this.router.navigate(['/dashboard/products', p.id]);
   }
 
-  protected remove(p: Product): void {
+  protected async remove(p: Product): Promise<void> {
     if (!confirm(`Delete "${p.name}" (${p.itemCode})? This cannot be undone.`)) return;
-    this.store.remove(p.id);
-    this.snack.open(`Deleted ${p.itemCode}`, 'OK', { duration: 3000 });
+    const deleted = await this.store.remove(p.id);
+    this.snack.open(deleted ? `Deleted ${p.itemCode}` : 'Could not delete – is the server running?', 'OK', {
+      duration: 3000,
+    });
   }
 }

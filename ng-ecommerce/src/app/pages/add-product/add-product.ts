@@ -279,16 +279,19 @@ export default class AddProduct {
     this.images.update((list) => list.filter((_, i) => i !== index));
   }
 
-  protected deleteProduct(): void {
+  protected async deleteProduct(): Promise<void> {
     const p = this.existing();
     if (!p) return;
     if (!confirm(`Delete "${p.name}" (${p.itemCode})? This cannot be undone.`)) return;
-    this.store.remove(p.id);
+    if (!(await this.store.remove(p.id))) {
+      this.snack.open('Could not delete – the server is not reachable', 'OK', { duration: 4000 });
+      return;
+    }
     this.snack.open(`Deleted ${p.itemCode}`, 'OK', { duration: 3000 });
     this.router.navigateByUrl('/dashboard/products');
   }
 
-  protected submit(addAnother: boolean): void {
+  protected async submit(addAnother: boolean): Promise<void> {
     if (this.form.invalid) {
       this.form.markAllAsTouched();
       this.snack.open('Please fix the highlighted fields', 'OK', { duration: 3000 });
@@ -309,8 +312,8 @@ export default class AddProduct {
 
     const existing = this.existing();
     if (existing) {
-      if (!this.store.update(existing.id, data)) {
-        this.snack.open('Could not save – browser storage is full. Try fewer or smaller photos.', 'OK', {
+      if (!(await this.store.update(existing.id, data))) {
+        this.snack.open('Could not save – is the server running?', 'OK', {
           duration: 5000,
         });
         return;
@@ -320,10 +323,10 @@ export default class AddProduct {
       return;
     }
 
-    const product = this.store.add(data);
+    const product = await this.store.add(data);
 
     if (!product) {
-      this.snack.open('Could not save – browser storage is full. Try fewer or smaller photos.', 'OK', {
+      this.snack.open('Could not save – is the server running?', 'OK', {
         duration: 5000,
       });
       return;

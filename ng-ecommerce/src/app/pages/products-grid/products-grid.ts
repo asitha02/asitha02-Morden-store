@@ -108,7 +108,16 @@ const normalize = (s: string) => s.toLowerCase().replace(/[^a-z0-9]/g, '');
     </div>
 
     <!-- Results -->
-    @if (store.products().length === 0) {
+    @if (store.error()) {
+      <div class="text-center bg-white border border-red-200 rounded-xl p-10">
+        <mat-icon class="!w-12 !h-12 !text-5xl text-red-300">cloud_off</mat-icon>
+        <p class="font-medium mt-2">Cannot reach the server</p>
+        <p class="text-slate-500 mb-4">Start the backend (<code>npm run dev</code> in the backend folder), then try again.</p>
+        <button matButton="filled" (click)="store.reload()">Try again</button>
+      </div>
+    } @else if (store.loading()) {
+      <p class="text-slate-500">Loading parts…</p>
+    } @else if (store.products().length === 0) {
       <div class="text-center bg-white border border-dashed border-slate-300 rounded-xl p-10">
         <mat-icon class="!w-12 !h-12 !text-5xl text-slate-300">inventory_2</mat-icon>
         <p class="font-medium mt-2">No products yet</p>

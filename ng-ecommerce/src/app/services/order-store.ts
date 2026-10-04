@@ -22,7 +22,11 @@ export class OrderStore {
    * Edits a saved order: customer details, quantities, and which items are kept.
    * Stock is given back / taken again to match the new quantities.
    */
-  update(id: string, customer: Customer, edited: { productId: string; quantity: number }[]): Order | null {
+  async update(
+    id: string,
+    customer: Customer,
+    edited: { productId: string; quantity: number }[],
+  ): Promise<Order | null> {
     const old = this._orders().find((o) => o.id === id);
     if (!old) return null;
 
@@ -43,12 +47,13 @@ export class OrderStore {
     };
 
     // stock change = what the order used to take minus what it takes now
-    this.products.adjustStock(
+    const stockChanged = await this.products.adjustStock(
       old.lines.map((l) => ({
         productId: l.productId,
         change: l.quantity - (lines.find((n) => n.productId === l.productId)?.quantity ?? 0),
       })),
     );
+    if (!stockChanged) return null;
 
     this._orders.update((list) => list.map((o) => (o.id === id ? updated : o)));
     saveJson(ORDERS_KEY, this._orders());
@@ -56,12 +61,16 @@ export class OrderStore {
   }
 
   /** Deletes an order and puts its items back into stock (like a cancelled order). */
-  remove(id: string): void {
+  async remove(id: string): Promise<boolean> {
     const order = this._orders().find((o) => o.id === id);
-    if (!order) return;
-    this.products.adjustStock(order.lines.map((l) => ({ productId: l.productId, change: l.quantity })));
+    if (!order) return false;
+    const stockBack = await this.products.adjustStock(
+      order.lines.map((l) => ({ productId: l.productId, change: l.quantity })),
+    );
+    if (!stockBack) return false;
     this._orders.update((list) => list.filter((o) => o.id !== id));
     saveJson(ORDERS_KEY, this._orders());
+    return true;
   }
 
   /** Saves a new order built from the cart. */

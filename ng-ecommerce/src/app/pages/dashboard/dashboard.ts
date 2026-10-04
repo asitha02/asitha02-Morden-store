@@ -135,11 +135,13 @@ export default class Dashboard {
     },
   ]);
 
-  protected deleteOrder(order: Order): void {
+  protected async deleteOrder(order: Order): Promise<void> {
     if (!confirm(`Delete order ${order.orderNo}? Its items will go back into stock. This cannot be undone.`)) {
       return;
     }
-    this.orders.remove(order.id);
+    if (!(await this.orders.remove(order.id))) {
+      alert('Could not delete the order – the server is not reachable.');
+    }
   }
 
   protected readonly lowStock = computed(() =>

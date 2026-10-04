@@ -159,14 +159,19 @@ export default class Cart {
     phone: [''],
   });
 
-  protected placeOrder(): void {
+  protected async placeOrder(): Promise<void> {
     if (this.customer.invalid) {
       this.customer.markAllAsTouched();
       return;
     }
     const v = this.customer.getRawValue();
-    const order = this.cart.checkout({ name: v.name.trim(), phone: v.phone.trim() });
-    if (!order) return;
+    const order = await this.cart.checkout({ name: v.name.trim(), phone: v.phone.trim() });
+    if (!order) {
+      this.snack.open('Could not place the order – not enough stock, or the server is not reachable', 'OK', {
+        duration: 5000,
+      });
+      return;
+    }
     this.snack.open(`Order ${order.orderNo} saved`, 'OK', { duration: 3000 });
     this.customer.reset();
     this.router.navigateByUrl('/dashboard');

@@ -66,12 +66,16 @@ export class CartStore {
     this.lines.set([]);
   }
 
-  /** Saves the cart as an order (shown on the dashboard), reduces stock and empties the cart. */
-  checkout(customer: Customer): Order | null {
+  /** Saves the cart as an order (shown on the dashboard), reduces stock and empties the cart. Null if it failed. */
+  async checkout(customer: Customer): Promise<Order | null> {
     const items = this.items();
     if (!items.length) return null;
+    // the server takes the stock first, and refuses if there is not enough
+    const stockTaken = await this.products.adjustStock(
+      items.map((i) => ({ productId: i.product.id, change: -i.quantity })),
+    );
+    if (!stockTaken) return null;
     const order = this.orders.place(customer, items);
-    this.products.adjustStock(items.map((i) => ({ productId: i.product.id, change: -i.quantity })));
     this.clear();
     return order;
   }

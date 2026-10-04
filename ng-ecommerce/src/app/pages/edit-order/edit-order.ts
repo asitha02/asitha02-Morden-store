@@ -156,26 +156,34 @@ export default class EditOrder {
     this.draft.update((list) => list.filter((l) => l.productId !== line.productId));
   }
 
-  protected deleteOrder(): void {
+  protected async deleteOrder(): Promise<void> {
     const o = this.order();
     if (!o) return;
     if (!confirm(`Delete order ${o.orderNo}? Its items will go back into stock. This cannot be undone.`)) return;
-    this.orders.remove(o.id);
+    if (!(await this.orders.remove(o.id))) {
+      this.snack.open('Could not delete the order – the server is not reachable', 'OK', { duration: 4000 });
+      return;
+    }
     this.snack.open(`Order ${o.orderNo} deleted`, 'OK', { duration: 3000 });
     this.router.navigateByUrl('/dashboard');
   }
 
-  protected save(): void {
+  protected async save(): Promise<void> {
     const name = this.name().trim();
     this.nameError.set(!name);
     if (!name || !this.draft().length) return;
 
-    const updated = this.orders.update(
+    const updated = await this.orders.update(
       this.id(),
       { name, phone: this.phone().trim() },
       this.draft().map((l) => ({ productId: l.productId, quantity: l.quantity })),
     );
-    if (!updated) return;
+    if (!updated) {
+      this.snack.open('Could not save – not enough stock, or the server is not reachable', 'OK', {
+        duration: 4000,
+      });
+      return;
+    }
     this.snack.open(`Order ${updated.orderNo} updated`, 'OK', { duration: 3000 });
     this.router.navigateByUrl('/dashboard');
   }
